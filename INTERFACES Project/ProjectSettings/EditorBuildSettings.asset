@@ -51,16 +51,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Code Examples/Receive Water Data.unity
     guid: e432add6f06a341039153cf5e865ad9d
   - enabled: 0
-    path: Assets/Scenes/NBSS_VR.unity
+    path: Assets/Scenes/Depreciated/NBSS_VR.unity
     guid: 446481ded551fea419775722325f0e2b
   - enabled: 0
-    path: Assets/Scenes/NBSS_for_VR_headset.unity
+    path: Assets/Scenes/Depreciated/NBSS_for_VR_headset.unity
     guid: 8d8dc7f3de2cd6746adca89996252f90
   - enabled: 0
-    path: Assets/Scenes/NBSS_for_headset_v1.unity
+    path: Assets/Scenes/Depreciated/NBSS_for_headset_v1.unity
     guid: 4169d4d72c556524780e9ad8ffd36709
   - enabled: 0
-    path: Assets/Scenes/NBSS_for_headset_v2.unity
+    path: Assets/Scenes/Depreciated/NBSS_for_headset_v2.unity
     guid: 073d1479e0d459d409c74804d185d4f8
   - enabled: 1
     path: Assets/Scenes/NBSS_headset_v3.unity
