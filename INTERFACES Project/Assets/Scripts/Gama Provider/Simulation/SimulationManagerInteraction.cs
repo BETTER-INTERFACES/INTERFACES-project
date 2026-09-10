@@ -180,6 +180,82 @@ public class SimulationManagerInteraction : SimulationManager
 
     }
 
+
+   [Header("Paramètres mode debug")]
+    public bool debugMode = false;
+    [Range(0f, 1f)]
+    public float rainIntentisty = 0.0f;
+
+     [Range(0f, 3f)]
+    public float pondWaterLevel = 0.0f;
+    public List<GameObject> pondingArea;
+    public GameObject FlowerPrefab;
+    public GameObject ShrubPrefab;
+    public GameObject LocalFloraPrefab;
+    public GameObject trashPrefab;
+    public GameObject weedPrefab;
+
+   
+    private float currentRainIntentisty = 0.0f;
+    
+    public GameObject rainPrefab;
+    protected void update_rain()
+    {
+
+        
+            if (rainIntentisty != currentRainIntentisty)
+            {
+                if (!rainPrefab.activeSelf)
+                {
+                    rainPrefab.SetActive(true);
+                }
+
+                BaseRainScript rainScript = rainPrefab.GetComponent<BaseRainScript>();
+                rainScript.RainIntensity = currentRainIntentisty;
+                currentRainIntentisty = rainIntentisty;
+            }
+        
+       
+    }
+
+    protected void updatePond()
+    {
+        foreach (GameObject obj in pondingArea)
+        {
+            Debug.Log("obj: " + obj);
+             Material mat = Resources.Load<Material>("Materials/Water2/WaterVoronoi");
+             mat.SetFloat("_Alpha", 0.5f);
+                Renderer rend = obj.GetComponent<Renderer>();
+                rend.material = mat;
+
+                //If the pipe between swale0 and 1 is unblocked, change water direction from swale 0 to swale 1
+                if (obj.name == "ponding_area0" && unblocked)
+                {
+                    rend.material.SetVector("_Direction_1", new Vector2(-1f, 0f));
+                }
+
+                //If swale0 is unclogged, change water direction from swale 3 to swale 0
+                if ((obj.name == "ponding area2" || obj.name == "ponding area3") && unclogged)
+                {
+                    rend.material.SetVector("_Direction_1", new Vector2(0f, 1f));
+                }
+                //Change ponding_area position
+                obj.transform.position = new Vector3(obj.transform.position.x, -1.7f, obj.transform.position.z);
+                //Change water level according to attribute sent by Gama
+               obj.transform.localScale = new Vector3(obj.transform.localScale.x, pondWaterLevel, obj.transform.localScale.z);
+               Debug.Log("pondWaterLevel: " + pondWaterLevel);
+            
+                if (pondWaterLevel <= 0f)
+                {
+                    obj.SetActive(false); //If no water level, then disable GameObject ponding_area
+                }
+                else
+                {
+                    obj.SetActive(true);
+                }
+        }
+    }
+
     //This manages the attributes sent by Gama
     protected override void ManageAttributes(List<Attributes> attributes)
     {
@@ -345,8 +421,29 @@ public class SimulationManagerInteraction : SimulationManager
         }
     }
 
+     public void AddObject(GameObject prefab)
+    {
+
+        if (prefab == null)
+        {
+            Debug.LogWarning("Aucun prefab assigné dans l'inspecteur.");
+            return;
+        }
+
+
+         // Point de base situé directement devant le joueur
+        Vector3 pointDevant = Camera.main.transform.position + (Camera.main.transform.forward * 3f);
+
+        // Ajout d'une légère variation aléatoire (gauche/droite et avant/arrière relatifs au joueur)
+        float decalageX = UnityEngine.Random.Range(-1.0f, 1.0f);
+        float decalageZ = UnityEngine.Random.Range(-1.0f,1.0f);
+
+        Vector3 positionFinale = pointDevant + (Camera.main.transform.right * decalageX) + (Camera.main.transform.forward * decalageZ);
+        GameObject obj = Instantiate(prefab, positionFinale, Quaternion.identity);
+    }
+
     //Defines what happens when the main button (of the right controller) is trigger 
-    protected override void TriggerMainButton()
+    protected override void TriggerMainButton() 
     {
        
     }
@@ -371,6 +468,33 @@ public class SimulationManagerInteraction : SimulationManager
     //action activated at the end of the update phase (every frame)
     protected override void OtherUpdate()
     {
+        if (debugMode)
+        {
+                update_rain();
+
+
+            if (Keyboard.current != null && Keyboard.current.digit1Key.wasPressedThisFrame)
+           {
+                 AddObject(FlowerPrefab);
+            }
+            if (Keyboard.current != null && Keyboard.current.digit2Key.wasPressedThisFrame)
+           {
+                 AddObject(ShrubPrefab);
+            }
+             if (Keyboard.current != null && Keyboard.current.digit3Key.wasPressedThisFrame)
+           {
+                 AddObject(LocalFloraPrefab);
+            }
+            
+              if (Keyboard.current != null && Keyboard.current.digit4Key.wasPressedThisFrame)
+           {
+                 AddObject(weedPrefab);
+            }
+
+            
+              //  updatePond();
+        }
+    
         //Management of messages received from Gama
         if (message != null)
         {
