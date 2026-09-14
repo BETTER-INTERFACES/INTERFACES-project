@@ -37166,6 +37166,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 806990593}
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: weedPrefab
+      value: 
+      objectReference: {fileID: 169916, guid: 7692fca38ff1e2a41a1150cb803fe20c, type: 3}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: ShrubPrefab
+      value: 
+      objectReference: {fileID: 1132051335097494, guid: 736a3a898da8f894593c271ad73d5f1f, type: 3}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: createdObjs
       value: 
       objectReference: {fileID: 0}
@@ -37173,6 +37181,10 @@ PrefabInstance:
       propertyPath: progressBar
       value: 
       objectReference: {fileID: 1042231906}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: FlowerPrefab
+      value: 
+      objectReference: {fileID: 8457970020362098953, guid: b8cb555eb3a9a4e4988c1d6040aec95b, type: 3}
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: dateTimeText
       value: 
@@ -37201,6 +37213,10 @@ PrefabInstance:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 1303823325}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: LocalFloraPrefab
+      value: 
+      objectReference: {fileID: 1000012171661116, guid: 97c7589824dbbb24cbc2b95a9345ebb1, type: 3}
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: exclamationCanvas
       value: 
