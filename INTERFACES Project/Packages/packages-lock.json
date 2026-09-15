@@ -362,6 +362,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.zallist.universal-shadergraph-extensions": {
+      "version": "https://github.com/ben-dunc/unity.zallist.universal-simple-lit-shadergraph-target.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "cb80aa2342518fdfa922dbb56b9c8fe8e1120b1a"
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,
