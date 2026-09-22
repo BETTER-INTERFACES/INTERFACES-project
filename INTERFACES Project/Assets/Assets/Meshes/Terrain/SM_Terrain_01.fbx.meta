@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_Plaster
+    second: {fileID: 2100000, guid: e5a2ba7e5d16cca4ebb38131c230dba3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Terrain
     second: {fileID: 2100000, guid: bc1ef740f2e02c54899cb80e33a32a8a, type: 2}
   - first:
@@ -14,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Roads
     second: {fileID: 2100000, guid: dff28d79199210a47be2858b0212d451, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roads_Markings
+    second: {fileID: 2100000, guid: f1b9f96db40f3f042a47b1e549689ced, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
