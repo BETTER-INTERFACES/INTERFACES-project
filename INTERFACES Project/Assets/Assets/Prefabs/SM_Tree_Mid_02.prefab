@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5764726482507821792, guid: 1e1dce3ac9a1c314bb54242e070209c5, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 126
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: -4350137747605145275, guid: 1e1dce3ac9a1c314bb54242e070209c5, type: 3}
       propertyPath: m_CastShadows

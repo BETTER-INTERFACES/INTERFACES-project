@@ -115,7 +115,7 @@ Material:
     - _AlphaClip: 1
     - _AlphaToMask: 1
     - _Alpha_Clip: 1
-    - _Alpha_Clip_Value: 0.88
+    - _Alpha_Clip_Value: 0.24
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
