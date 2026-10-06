@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.4575472, g: 0.7391679, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.745283, g: 0.745283, b: 0.41834283, a: 1}
   m_AmbientGroundColor: {r: 0.122641504, g: 0.051837318, b: 0, a: 1}
-  m_AmbientIntensity: 0.8
+  m_AmbientIntensity: 1.1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 0d9775436bcb5b143835539b36790344, type: 2}
@@ -424,6 +424,96 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &131063451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 131063452}
+  - component: {fileID: 131063454}
+  - component: {fileID: 131063453}
+  m_Layer: 0
+  m_Name: SM_Park_Fence_03_LOD0 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &131063452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131063451}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0000017732382, y: -0.00000023841858, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 777060882}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &131063453
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131063451}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 873120745ec1a16499867b0e58f812f5, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &131063454
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131063451}
+  m_Mesh: {fileID: 7711043110239256685, guid: 46803e4560934614697d58299f446d25, type: 3}
 --- !u!43 &168091700
 Mesh:
   m_ObjectHideFlags: 0
@@ -1055,6 +1145,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &301014329
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 46.211
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -21.000008
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682346615001480737, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_Name
+      value: SM_Park_Fence_03 (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
 --- !u!43 &333617930
 Mesh:
   m_ObjectHideFlags: 0
@@ -3757,6 +3904,71 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &777060881
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 50.211
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -21.000021
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682346615001480737, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_Name
+      value: SM_Park_Fence_03 (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 131063452}
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+--- !u!4 &777060882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+  m_PrefabInstance: {fileID: 777060881}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &794550123
 Mesh:
   m_ObjectHideFlags: 0
@@ -4717,6 +4929,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &907258626
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 48.211
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -21.000013
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682346615001480737, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_Name
+      value: SM_Park_Fence_03 (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
 --- !u!1001 &956901719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10310,6 +10579,63 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1001 &7413680238711656144
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 44.211
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710784
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682346615001480737, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
+      propertyPath: m_Name
+      value: SM_Park_Fence_03
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -10333,3 +10659,7 @@ SceneRoots:
   - {fileID: 548876604}
   - {fileID: 806990592}
   - {fileID: 1240226151}
+  - {fileID: 7413680238711656144}
+  - {fileID: 907258626}
+  - {fileID: 301014329}
+  - {fileID: 777060881}

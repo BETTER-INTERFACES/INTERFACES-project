@@ -21,13 +21,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Background_Cutout_01
-  m_Shader: {fileID: -6465566751694194690, guid: 37f8d1a651a6761408bbfa842d6d22cc, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7528c9afc74704746a47c64134cceae2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
+  m_InvalidKeywords:
   - _SPECULAR_COLOR
-  m_InvalidKeywords: []
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
