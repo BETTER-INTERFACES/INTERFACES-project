@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 51ec548d4533ed74dbfafa91aebd5250
+  m_OcclusionCullingData: {fileID: 36300000, guid: e5b1bfa3a45a9b148819db99bfd4382e, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000004, guid: 0b219130a66e3b9429948c485068e503, type: 2}
+  m_LightingDataAsset: {fileID: 112000004, guid: 5823447e03f79814bbff69fa64180597, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 25ed19165ac4593499f063347241124d, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -10217,6 +10217,8 @@ MonoBehaviour:
     preset: {fileID: 11400000, guid: c85dfd7c9a913b446b5d83f57f3286e2, type: 2}
   - label: Lighting_Heatwave
     preset: {fileID: 11400000, guid: 67e5d654d5abe10478aa1249eed4ef0c, type: 2}
+  - label: Lighting_Rain
+    preset: {fileID: 11400000, guid: 5aba70417008c5041b745cdf49189dfd, type: 2}
   startIndex: 0
 --- !u!4 &2116031371
 Transform:

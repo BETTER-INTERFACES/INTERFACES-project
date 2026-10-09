@@ -19,6 +19,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: M_Windows
     second: {fileID: 2100000, guid: c6f0df97d03fd6e4e9e691fdd37e43ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roads
+    second: {fileID: 2100000, guid: dff28d79199210a47be2858b0212d451, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
