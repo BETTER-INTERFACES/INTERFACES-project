@@ -39,6 +39,7 @@ TagManager:
   - local_flora
   - paillage
   - sprout
+  - Vegetation
   layers:
   - Default
   - TransparentFX
