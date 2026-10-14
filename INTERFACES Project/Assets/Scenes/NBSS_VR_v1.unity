@@ -3112,6 +3112,22 @@ PrefabInstance:
       propertyPath: startActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: layers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: layers.Array.data[0].system
+      value: 
+      objectReference: {fileID: 1843905267}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: layers.Array.data[0].minIntensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: layers.Array.data[0].rateMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2519163033833861638, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
       propertyPath: m_Name
       value: Rain_Manager
@@ -8850,6 +8866,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!198 &1843905267 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1919079600500051505, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+  m_PrefabInstance: {fileID: 584048119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1870515324
 Mesh:
   m_ObjectHideFlags: 0
