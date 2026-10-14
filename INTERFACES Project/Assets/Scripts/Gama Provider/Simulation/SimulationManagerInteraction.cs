@@ -6,7 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.InputSystem;
 using System.Linq;
 using Unity.XR.CoreUtils;
-using DigitalRuby.RainMaker;
 using TMPro;
 using System.Collections;
 
@@ -198,24 +197,49 @@ public class SimulationManagerInteraction : SimulationManager
    
     private float currentRainIntentisty = 0.0f;
     
-    public GameObject rainPrefab;
+    [Header("Pluie")]
+    [Tooltip("Manager de pluie (RainManager). Si vide, il est cherche automatiquement dans la scene.")]
+    public RainManager rainManager;
+    private bool rainManagerWarned = false;
+
+    // Applique une intensite de pluie (0 a 1) au RainManager.
+    // 0 = la pluie est coupee avec fondu, > 0 = la pluie est activee avec cette intensite.
+    protected void ApplyRain(float intensity01)
+    {
+        if (rainManager == null)
+        {
+            rainManager = FindFirstObjectByType<RainManager>();
+            if (rainManager == null)
+            {
+                if (!rainManagerWarned)
+                {
+                    Debug.LogWarning("Aucun RainManager trouve dans la scene.");
+                    rainManagerWarned = true;
+                }
+                return;
+            }
+        }
+
+        intensity01 = Mathf.Clamp01(intensity01);
+
+        if (intensity01 <= 0f)
+        {
+            rainManager.SetRainActive(false);
+        }
+        else
+        {
+            rainManager.SetIntensity(intensity01);
+            rainManager.SetRainActive(true);
+        }
+    }
+
+    // Mode debug : pilote la pluie avec le slider rainIntentisty
     protected void update_rain()
     {
+        if (Mathf.Approximately(rainIntentisty, currentRainIntentisty)) return;
 
-        
-            if (rainIntentisty != currentRainIntentisty)
-            {
-                if (!rainPrefab.activeSelf)
-                {
-                    rainPrefab.SetActive(true);
-                }
-
-                BaseRainScript rainScript = rainPrefab.GetComponent<BaseRainScript>();
-                rainScript.RainIntensity = currentRainIntentisty;
-                currentRainIntentisty = rainIntentisty;
-            }
-        
-       
+        currentRainIntentisty = rainIntentisty;
+        ApplyRain(rainIntentisty);
     }
 
     protected void updatePond()
@@ -275,9 +299,9 @@ public class SimulationManagerInteraction : SimulationManager
             {
                 float intensity = attributes[i].rain_intensity;
                 string season = attributes[i].rain_seasons;
-                BaseRainScript rainScript = GameObject.FindWithTag("rain").GetComponent<BaseRainScript>();
 
-                rainScript.RainIntensity = intensity / 3f;
+                // Intensite envoyee par Gama (0 a 3) ramenee entre 0 et 1
+                ApplyRain(intensity / 3f);
             }
             else if (name.StartsWith("filter_media"))
             {
