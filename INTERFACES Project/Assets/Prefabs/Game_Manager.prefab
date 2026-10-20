@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1040644693330804930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7618395767469183368}
+  - component: {fileID: 2361634582402794537}
+  m_Layer: 0
+  m_Name: LightingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7618395767469183368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040644693330804930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6275433751194985120}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2361634582402794537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040644693330804930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4340d139b2b57bd4589a315c4fb5dc84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LightingManager
+  startupPreset: {fileID: 11400000, guid: c85dfd7c9a913b446b5d83f57f3286e2, type: 2}
 --- !u!1 &7393797984571041058
 GameObject:
   m_ObjectHideFlags: 0
@@ -31,6 +76,7 @@ Transform:
   m_Children:
   - {fileID: 257039700980798916}
   - {fileID: 3665290254308678123}
+  - {fileID: 7618395767469183368}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2378896682064392157
@@ -120,6 +166,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 6275433751194985120}
     m_Modifications:
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: debugMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: summerSky
       value: 
       objectReference: {fileID: 2100000, guid: ddbcbb3899687ea469ed4a5fce1532df, type: 2}
@@ -128,6 +178,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: ec46d2188d4b8774e847e75f1e12a8db, type: 2}
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: weedPrefab
+      value: 
+      objectReference: {fileID: 169916, guid: 7692fca38ff1e2a41a1150cb803fe20c, type: 3}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: ShrubPrefab
+      value: 
+      objectReference: {fileID: 1132051335097494, guid: 736a3a898da8f894593c271ad73d5f1f, type: 3}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: FlowerPrefab
+      value: 
+      objectReference: {fileID: 8457970020362098953, guid: b8cb555eb3a9a4e4988c1d6040aec95b, type: 3}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: initPosition.y
       value: 1.8
       objectReference: {fileID: 0}
@@ -135,6 +197,10 @@ PrefabInstance:
       propertyPath: initPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
+      propertyPath: LocalFloraPrefab
+      value: 
+      objectReference: {fileID: 1000012171661116, guid: 97c7589824dbbb24cbc2b95a9345ebb1, type: 3}
     - target: {fileID: -9060036263621306705, guid: e9d3131a7decdfc4f984553097d6c48b, type: 3}
       propertyPath: exclamationCanvas
       value: 

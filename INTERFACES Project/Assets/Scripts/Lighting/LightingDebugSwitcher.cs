@@ -14,16 +14,27 @@ public class LightingDebugSwitcher : MonoBehaviour
 
     void Start() { Switch(startIndex); }
 
+
     public void Switch(int index)
     {
-        if (entries == null || index < 0 || index >= entries.Length) return;
+        if (entries == null || index < 0 || index >= entries.Length)
+            return;
+
         if (entries[index].preset == null)
         {
-            Debug.LogWarning("Preset manquant pour l'entree " + index);
+            Debug.LogWarning("Missing preset for entry " + index);
             return;
         }
-        entries[index].preset.Apply();
+
+        if (LightingManager.Instance == null)
+        {
+            Debug.LogWarning("LightingManager not found.");
+            return;
+        }
+
+        LightingManager.Instance.SetLightingPreset(entries[index].preset);
     }
+
 
     void OnGUI()
     {
