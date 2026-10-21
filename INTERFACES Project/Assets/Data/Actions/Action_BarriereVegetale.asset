@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9315596ff5c11456bb7451d30c3bf1bf, type: 3}
+  m_Name: Action_BarriereVegetale
+  m_EditorClassIdentifier: Assembly-CSharp::SwaleActionData
+  actionName: "Barri\xE8re v\xE9g\xE9tale"
+  scoreDelta: 20
+  gamaCommandSuffix: 3
+  messageTexte: "Les plantes locales prot\xE8gent la noue du pi\xE9tinement naturellement,
+    et ralentissent le tassement de la terre."
+  messageDuration: 7
+  messageColor: {r: 0.46666667, g: 0.69803923, b: 0.41960785, a: 1}

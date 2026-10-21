@@ -45,4 +45,28 @@ public class LightingManager : MonoBehaviour
 
         Debug.Log($"Lighting changed to: {preset.name}");
     }
+
+
+    public void AppliquerMeteo(string saison)
+{
+    switch (saison)
+    {
+        case "Spring":
+            // Mets ici l'appel ou les réglages déjà existants dans ton LightingManager pour le printemps
+            Debug.Log("Lighting: Application Printemps");
+            break;
+
+        case "Summer":
+            Debug.Log("Lighting: Application Été");
+            break;
+
+        case "Autumn_Fail":
+            Debug.Log("Lighting: Application Automne (Échec)");
+            break;
+
+        case "Autumn_Success":
+            Debug.Log("Lighting: Application Automne (Succès)");
+            break;
+    }
+}
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9315596ff5c11456bb7451d30c3bf1bf, type: 3}
+  m_Name: Action_ArroserPlusTard
+  m_EditorClassIdentifier: Assembly-CSharp::SwaleActionData
+  actionName: "Arroser plus tard ou t\xF4t"
+  scoreDelta: 0
+  gamaCommandSuffix: water_late_early
+  messageTexte: "Arroser aux heures fra\xEEches permet \xE0 l'eau de p\xE9n\xE9trer
+    efficacement en profondeur."
+  messageDuration: 7
+  messageColor: {r: 0, g: 1, b: 0, a: 1}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9315596ff5c11456bb7451d30c3bf1bf, type: 3}
+  m_Name: Action_Gazon
+  m_EditorClassIdentifier: Assembly-CSharp::SwaleActionData
+  actionName: Semer gazon classique
+  scoreDelta: -20
+  gamaCommandSuffix: -10
+  messageTexte: "Une pelouse classique demande trop d'eau. Il faut privil\xE9gier
+    des plantes locales adapt\xE9es \xE0 la s\xE9cheresse !"
+  messageDuration: 7
+  messageColor: {r: 1, g: 0, b: 0, a: 1}
