@@ -118,7 +118,7 @@ species unity_linker parent: abstract_unity_linker {
 		map<string,list<unknown>> atts_ponding_area <- ["water_level":: water_level_pond];
 		map<string,list<unknown>> atts_nbss_area <- ["health":: health];
 		
-		do add_geometries_to_send(rain,up_rain,atts_rain);
+		//do add_geometries_to_send(rain,up_rain,atts_rain);
 		do add_geometries_to_send(ponding_area, up_ponding_area, atts_ponding_area);
 		do add_geometries_to_send(filter_media, up_filter_media, atts_fm);
 		do add_geometries_to_send(nbss_area, up_nbss_area, atts_nbss_area);
