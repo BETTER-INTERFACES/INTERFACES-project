@@ -34,6 +34,34 @@ public class LightingPreset : ScriptableObject
         public bool useTemperature;
         public float temperature;
         public LightShadows shadows;
+
+        // Champs ajoutes (hasExtra = false pour les anciens presets)
+        public bool hasExtra;
+        public float bounceIntensity;
+        public float shadowStrength;
+    }
+
+    public enum MatPropType { Texture, Color, Float, Vector }
+
+    [System.Serializable]
+    public class MaterialProperty
+    {
+        public string name;
+        public MatPropType type;
+        public Texture texture;
+        public Vector2 textureScale = Vector2.one;
+        public Vector2 textureOffset;
+        public Color color = Color.white;
+        public float number;
+        public Vector4 vector;
+    }
+
+    [System.Serializable]
+    public class MaterialOverride
+    {
+        public Material material;
+        // Si vide au moment de la capture : toutes les textures visibles du shader sont detectees
+        public MaterialProperty[] properties;
     }
 
     public Texture2D[] colors;
@@ -47,6 +75,18 @@ public class LightingPreset : ScriptableObject
     public bool fog;
     public Color fogColor;
     public float fogDensity;
+
+    // Environnement : champs ajoutes
+    public bool hasEnvExtra;
+    public AmbientMode ambientMode;
+    public Color ambientSkyColor;
+    public Color ambientEquatorColor;
+    public Color ambientGroundColor;
+    public float ambientIntensity = 1f;
+    public float reflectionIntensity = 1f;
+
+    // Materiaux dont les valeurs changent selon le preset
+    public MaterialOverride[] materialOverrides;
 
 #if UNITY_EDITOR
     // Utilise uniquement dans l'editeur (non inclus dans les builds)
@@ -122,6 +162,9 @@ public class LightingPreset : ScriptableObject
 
         // 5. Environnement
         ApplyEnvironment();
+
+        // 6. Materiaux (valeurs de textures)
+        ApplyMaterials();
     }
 
     public void ApplyEnvironment()
@@ -131,6 +174,16 @@ public class LightingPreset : ScriptableObject
         RenderSettings.fog = fog;
         RenderSettings.fogColor = fogColor;
         RenderSettings.fogDensity = fogDensity;
+
+        if (hasEnvExtra)
+        {
+            RenderSettings.ambientMode = ambientMode;
+            RenderSettings.ambientSkyColor = ambientSkyColor;
+            RenderSettings.ambientEquatorColor = ambientEquatorColor;
+            RenderSettings.ambientGroundColor = ambientGroundColor;
+            RenderSettings.ambientIntensity = ambientIntensity;
+            RenderSettings.reflectionIntensity = reflectionIntensity;
+        }
         DynamicGI.UpdateEnvironment();
     }
 
@@ -170,12 +223,18 @@ public class LightingPreset : ScriptableObject
             l.enabled = e.enabled;
             l.transform.SetPositionAndRotation(e.position, e.rotation);
             l.color = e.color;
+            l.useColorTemperature = e.useTemperature;
+            l.colorTemperature = e.temperature;
             l.intensity = e.intensity;
             l.range = e.range;
             l.spotAngle = e.spotAngle;
-            l.useColorTemperature = e.useTemperature;
-            l.colorTemperature = e.temperature;
             l.shadows = e.shadows;
+
+            if (e.hasExtra)
+            {
+                l.bounceIntensity = e.bounceIntensity;
+                l.shadowStrength = e.shadowStrength;
+            }
 
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -194,6 +253,63 @@ public class LightingPreset : ScriptableObject
         return result;
     }
 
+    // Applique les valeurs de materiaux propres a ce preset
+    public string ApplyMaterials()
+    {
+        if (materialOverrides == null || materialOverrides.Length == 0)
+            return $"[{name}] Aucun materiau a modifier dans ce preset.";
+
+        int mats = 0, props = 0, skipped = 0;
+        foreach (var o in materialOverrides)
+        {
+            if (o == null || o.material == null || o.properties == null) continue;
+            var m = o.material;
+
+#if UNITY_EDITOR
+            if (!Application.isPlaying) Undo.RecordObject(m, "Apply preset material");
+#endif
+            foreach (var p in o.properties)
+            {
+                if (string.IsNullOrEmpty(p.name) || !m.HasProperty(p.name))
+                {
+                    skipped++;
+                    continue;
+                }
+                switch (p.type)
+                {
+                    case MatPropType.Texture:
+                        m.SetTexture(p.name, p.texture);
+                        m.SetTextureScale(p.name, p.textureScale);
+                        m.SetTextureOffset(p.name, p.textureOffset);
+                        break;
+                    case MatPropType.Color:
+                        m.SetColor(p.name, p.color);
+                        break;
+                    case MatPropType.Float:
+                        m.SetFloat(p.name, p.number);
+                        break;
+                    case MatPropType.Vector:
+                        m.SetVector(p.name, p.vector);
+                        break;
+                }
+                props++;
+            }
+
+#if UNITY_EDITOR
+            if (!Application.isPlaying) EditorUtility.SetDirty(m);
+#endif
+            mats++;
+        }
+
+#if UNITY_EDITOR
+        if (!Application.isPlaying) AssetDatabase.SaveAssets();
+#endif
+
+        string result = $"[{name}] Materiaux appliques : {mats}, proprietes : {props}, ignorees : {skipped}.";
+        Debug.Log(result);
+        return result;
+    }
+
 #if UNITY_EDITOR
     // ---------- Editor ----------
     const string Root = "Assets/Lightmaps";
@@ -204,7 +320,7 @@ public class LightingPreset : ScriptableObject
         return msg;
     }
 
-    // Charge ce preset dans la scene ouverte : vrai Lighting Data, lumieres et environnement
+    // Charge ce preset dans la scene ouverte : vrai Lighting Data, lumieres, environnement et materiaux
     public string ApplyToScene()
     {
         if (lightingData == null)
@@ -213,9 +329,10 @@ public class LightingPreset : ScriptableObject
         Lightmapping.lightingDataAsset = lightingData;
         if (lights != null && lights.Length > 0) ApplyLights();
         ApplyEnvironment();
+        ApplyMaterials();
 
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-        string result = $"Preset '{name}' charge dans la scene (Lighting Data, lumieres, environnement).";
+        string result = $"Preset '{name}' charge dans la scene (Lighting Data, lumieres, environnement, materiaux).";
         Debug.Log(result);
         return result;
     }
@@ -318,13 +435,9 @@ public class LightingPreset : ScriptableObject
                         probeData[p * 27 + c * 9 + k] = probes[p][c, k];
         }
 
-        skybox = RenderSettings.skybox;
-        ambientLight = RenderSettings.ambientLight;
-        fog = RenderSettings.fog;
-        fogColor = RenderSettings.fogColor;
-        fogDensity = RenderSettings.fogDensity;
-
+        CaptureEnvironment();
         CaptureLights();
+        CaptureMaterials();
 
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
@@ -332,6 +445,25 @@ public class LightingPreset : ScriptableObject
         string result = $"Preset '{name}' capture : {src.Length} lightmaps, {list.Count} renderers, {lights.Length} lumieres, Lighting Data stocke.";
         Debug.Log(result);
         return result;
+    }
+
+    public void CaptureEnvironment()
+    {
+        Undo.RecordObject(this, "Capture environment");
+        skybox = RenderSettings.skybox;
+        ambientLight = RenderSettings.ambientLight;
+        fog = RenderSettings.fog;
+        fogColor = RenderSettings.fogColor;
+        fogDensity = RenderSettings.fogDensity;
+
+        hasEnvExtra = true;
+        ambientMode = RenderSettings.ambientMode;
+        ambientSkyColor = RenderSettings.ambientSkyColor;
+        ambientEquatorColor = RenderSettings.ambientEquatorColor;
+        ambientGroundColor = RenderSettings.ambientGroundColor;
+        ambientIntensity = RenderSettings.ambientIntensity;
+        reflectionIntensity = RenderSettings.reflectionIntensity;
+        EditorUtility.SetDirty(this);
     }
 
     public string CaptureLights()
@@ -354,7 +486,10 @@ public class LightingPreset : ScriptableObject
                 spotAngle = l.spotAngle,
                 useTemperature = l.useColorTemperature,
                 temperature = l.colorTemperature,
-                shadows = l.shadows
+                shadows = l.shadows,
+                hasExtra = true,
+                bounceIntensity = l.bounceIntensity,
+                shadowStrength = l.shadowStrength
             });
         }
         lights = list.ToArray();
@@ -364,6 +499,78 @@ public class LightingPreset : ScriptableObject
         string result = $"Preset '{name}' : {lights.Length} lumieres capturees.";
         Debug.Log(result);
         return result;
+    }
+
+    // Capture les valeurs actuelles des materiaux listes dans 'materialOverrides'.
+    // Si la liste de proprietes d'un materiau est vide, toutes les textures visibles du shader sont ajoutees.
+    public string CaptureMaterials()
+    {
+        if (materialOverrides == null || materialOverrides.Length == 0)
+            return $"Preset '{name}' : aucun materiau dans la liste, rien a capturer.";
+
+        Undo.RecordObject(this, "Capture materials");
+
+        int mats = 0, props = 0;
+        foreach (var o in materialOverrides)
+        {
+            if (o == null || o.material == null) continue;
+            var m = o.material;
+
+            if (o.properties == null || o.properties.Length == 0)
+                o.properties = DetectTextureProperties(m);
+
+            foreach (var p in o.properties)
+            {
+                if (string.IsNullOrEmpty(p.name) || !m.HasProperty(p.name)) continue;
+                switch (p.type)
+                {
+                    case MatPropType.Texture:
+                        p.texture = m.GetTexture(p.name);
+                        p.textureScale = m.GetTextureScale(p.name);
+                        p.textureOffset = m.GetTextureOffset(p.name);
+                        break;
+                    case MatPropType.Color:
+                        p.color = m.GetColor(p.name);
+                        break;
+                    case MatPropType.Float:
+                        p.number = m.GetFloat(p.name);
+                        break;
+                    case MatPropType.Vector:
+                        p.vector = m.GetVector(p.name);
+                        break;
+                }
+                props++;
+            }
+            mats++;
+        }
+
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+
+        string result = $"Preset '{name}' : {mats} materiaux, {props} proprietes capturees.";
+        Debug.Log(result);
+        return result;
+    }
+
+    static MaterialProperty[] DetectTextureProperties(Material m)
+    {
+        var list = new List<MaterialProperty>();
+        var shader = m.shader;
+        int count = shader.GetPropertyCount();
+        for (int i = 0; i < count; i++)
+        {
+            if (shader.GetPropertyType(i) != ShaderPropertyType.Texture) continue;
+            var flags = shader.GetPropertyFlags(i);
+            if ((flags & ShaderPropertyFlags.HideInInspector) != 0) continue;
+            if ((flags & ShaderPropertyFlags.NonModifiableTextureData) != 0) continue;
+
+            list.Add(new MaterialProperty
+            {
+                name = shader.GetPropertyName(i),
+                type = MatPropType.Texture
+            });
+        }
+        return list.ToArray();
     }
 
     public string Compare(LightingPreset other)
