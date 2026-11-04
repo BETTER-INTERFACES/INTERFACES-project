@@ -2354,6 +2354,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!4 &59155487 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2892463833418420870, guid: ef3a8fed757dda34a940f8fcbe9dcb60, type: 3}
@@ -13256,6 +13260,26 @@ PrefabInstance:
       propertyPath: lightingManager
       value: 
       objectReference: {fileID: 1907187787}
+    - target: {fileID: 3736144070534733367, guid: 0c45547d4347d4345841280a77d42847, type: 3}
+      propertyPath: NBSS_list.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736144070534733367, guid: 0c45547d4347d4345841280a77d42847, type: 3}
+      propertyPath: 'NBSS_list.Array.data[0]'
+      value: 
+      objectReference: {fileID: 58878626}
+    - target: {fileID: 3736144070534733367, guid: 0c45547d4347d4345841280a77d42847, type: 3}
+      propertyPath: 'NBSS_list.Array.data[1]'
+      value: 
+      objectReference: {fileID: 419509976}
+    - target: {fileID: 3736144070534733367, guid: 0c45547d4347d4345841280a77d42847, type: 3}
+      propertyPath: 'NBSS_list.Array.data[2]'
+      value: 
+      objectReference: {fileID: 747882238}
+    - target: {fileID: 3736144070534733367, guid: 0c45547d4347d4345841280a77d42847, type: 3}
+      propertyPath: 'NBSS_list.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1192303023}
     - target: {fileID: 6275433751194985120, guid: 0c45547d4347d4345841280a77d42847, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -13392,6 +13416,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!1001 &429693865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22662,6 +22690,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!4 &753013765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3308013788431850667, guid: c5f0b714bcbc379458ce0192d0bf3115, type: 3}
@@ -35927,6 +35959,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!4 &1192946077 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5012524592963396763, guid: 9aa5bacb794d50448a7f5eca4ba59595, type: 3}
@@ -42597,6 +42633,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!4 &1420403187 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3308013788431850667, guid: c5f0b714bcbc379458ce0192d0bf3115, type: 3}
@@ -43112,6 +43152,10 @@ MonoBehaviour:
   swaleRenderers: []
   burntMat: {fileID: 0}
   healthyMat: {fileID: 0}
+  WaterLevel: 0
+  Health: 0
+  SedimentsFM: 0
+  FQTFM: 0
 --- !u!1001 &1446001950
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -101,14 +101,16 @@ species unity_linker parent: abstract_unity_linker {
 	// Send species attributes to Unity as they're updated
 	reflex send_agents when: not empty(unity_player) {
 		list<float> rain_intensity <- rain collect int(each.runoff.my_flow);
-		list<string> rain_seasons <- rain collect current_season;
+		//list<string> rain_seasons <- rain collect current_season;
 		list<int> fqt_fm <- filter_media collect (each.function_attributes["my_fqt"]);
 		list<float> fm_sediments <- filter_media collect (each.partpoll_acc);
 		list<float> water_level_pond <- ponding_area collect (each.water_level);
 		list<float> health <- nbss_area collect (each.health);
-		map<string,list<unknown>> atts_fm <-  [
+		map<string,list<unknown>> atts_ <-  [
 			"fqt_fm":: fqt_fm,
-			"sediments_fm":: fm_sediments
+			"fm_sediments":: fm_sediments,
+			"water_level":: water_level_pond,
+			"health":: health
 		]; 
 		map<string,unknown> atts_rain <- [
 			"intensity":: first(rain_intensity)//,
@@ -116,14 +118,15 @@ species unity_linker parent: abstract_unity_linker {
 		];
 		
 		do send_message players: unity_player as list mes: atts_rain;
+		do send_message players: unity_player as list mes: atts_;
 		
-		map<string,list<unknown>> atts_ponding_area <- ["water_level":: water_level_pond];
-		map<string,list<unknown>> atts_nbss_area <- ["health":: health];
+		//map<string,list<unknown>> atts_ponding_area <- ["water_level":: water_level_pond];
+		//map<string,list<unknown>> atts_nbss_area <- ["health":: health];
 		
 	//	do add_geometries_to_send(rain,up_rain,atts_rain);
-		do add_geometries_to_send(ponding_area, up_ponding_area, atts_ponding_area);
-		do add_geometries_to_send(filter_media, up_filter_media, atts_fm);
-		do add_geometries_to_send(nbss_area, up_nbss_area, atts_nbss_area);
+		//do add_geometries_to_send(ponding_area, up_ponding_area, atts_ponding_area);
+		//do add_geometries_to_send(filter_media, up_filter_media, atts_fm);
+	//do add_geometries_to_send(nbss_area, up_nbss_area, atts_nbss_area);
 		
 	}
 	

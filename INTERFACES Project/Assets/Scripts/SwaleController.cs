@@ -18,6 +18,13 @@ public class SwaleController : MonoBehaviour
     public Material burntMat;
     public Material healthyMat;
 
+    public double WaterLevel;  
+    public double Health;
+    public double SedimentsFM;
+    public int FQTFM;
+
+     
+
     // Méthodes simples appelées par le GameManager
     public void ActiverBarriereVegetale() => vegetalFenceGroup?.SetActive(true);
     public void ActiverBarriereMetal() => metalFenceGroup?.SetActive(true);

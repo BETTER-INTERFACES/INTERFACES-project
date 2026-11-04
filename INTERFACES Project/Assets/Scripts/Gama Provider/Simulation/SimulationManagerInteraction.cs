@@ -21,6 +21,9 @@ public class SimulationManagerInteraction : SimulationManager
     public GameObject Scenario2;
     public GameObject scenario2Fail;
 
+
+    public List<GameObject> NBSS_list;
+
     [Header("Managers Dédiés")]
     public LightingManager lightingManager;
     public RainManager rainManager;
@@ -35,9 +38,12 @@ public class SimulationManagerInteraction : SimulationManager
     private List<string> tagsToIgnore = new List<string> { "building" };
     private bool rainManagerWarned = false;
 
+
     
     
     private GAMARainMessage RainMessage = null;
+
+    private GAMANBSSMessage NBSSMessage = null;
 
     // --- INTERACTIONS XR ---
 
@@ -93,8 +99,12 @@ public class SimulationManagerInteraction : SimulationManager
     {
         if (content.Contains("intensity"))
         {
-         RainMessage = GAMARainMessage.CreateFromJSON(content);
-        } else
+            RainMessage = GAMARainMessage.CreateFromJSON(content);
+        } if (content.Contains("water_level"))
+        {
+             NBSSMessage = GAMANBSSMessage.CreateFromJSON(content);
+        }
+        else
         {
               message = GAMAMessage2.CreateFromJSON(content);
              OnGAMAMessageReceived?.Invoke(message);
@@ -115,6 +125,11 @@ public class SimulationManagerInteraction : SimulationManager
         {
             ApplyRain((float) RainMessage.intensity);
             RainMessage = null;
+        }
+        if (NBSSMessage != null)
+        {
+            update_NBSS(NBSSMessage);
+            NBSSMessage = null;
         }
         if (message == null) return;
 
@@ -223,6 +238,34 @@ public class SimulationManagerInteraction : SimulationManager
         if (cc != null) cc.enabled = true;
     }
 
+
+    protected void update_NBSS(GAMANBSSMessage nbssMess) 
+    {
+        if (nbssMess == null || NBSS_list == null) return;
+
+        // Détermine le nombre d'éléments qu'on peut mettre à jour en toute sécurité
+        int count = NBSS_list.Count;
+
+        if (nbssMess.water_level != null) count = Mathf.Min(count, nbssMess.water_level.Count);
+        if (nbssMess.health != null) count = Mathf.Min(count, nbssMess.health.Count);
+        if (nbssMess.fm_sediments != null) count = Mathf.Min(count, nbssMess.fm_sediments.Count);
+        if (nbssMess.fqt_fm != null) count = Mathf.Min(count, nbssMess.fqt_fm.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject nbssGo = NBSS_list[i];
+            if (nbssGo == null) continue;
+
+            if (nbssGo.TryGetComponent<SwaleController>(out SwaleController swale))
+            {
+                swale.WaterLevel   = nbssMess.water_level[i];
+                swale.Health       = nbssMess.health[i];
+                swale.SedimentsFM  = nbssMess.fm_sediments[i];
+                swale.FQTFM        = nbssMess.fqt_fm[i];
+            }
+        }
+    }
+    
     protected void ApplyRain(float intensity01)
     {
         if (rainManager == null)
@@ -250,14 +293,32 @@ public class SimulationManagerInteraction : SimulationManager
 [System.Serializable]
 public class GAMARainMessage
 {
-
-   
     public double intensity;
     //public string season;
 
     public static GAMARainMessage CreateFromJSON(string jsonString)
     {
         return JsonUtility.FromJson<GAMARainMessage>(jsonString);
+    }
+
+}
+
+
+
+
+[System.Serializable]
+public class GAMANBSSMessage
+{
+
+    public List<double> water_level;  
+    public List<double> health;
+    public List<double> fm_sediments;
+    public List<int> fqt_fm;
+
+
+    public static GAMANBSSMessage CreateFromJSON(string jsonString)
+    {
+        return JsonUtility.FromJson<GAMANBSSMessage>(jsonString);
     }
 
 }
