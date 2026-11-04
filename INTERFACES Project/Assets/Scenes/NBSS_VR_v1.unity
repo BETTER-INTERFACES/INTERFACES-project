@@ -4015,8 +4015,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e98f1d52f4e84347b3ddb6003329b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DesactiverEnVR
-  progressBarObj: {fileID: 0}
-  actionCountText: {fileID: 0}
+  progressBarObj: {fileID: 1672015815}
+  actionCountText: {fileID: 1672015818}
   messageAfterSelect: Les cendres acidifient le sol et tuent les micro-organismes.
   messageHover: 
 --- !u!114 &126286221
@@ -18370,6 +18370,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1515358420}
     m_Modifications:
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: head
+      value: 
+      objectReference: {fileID: 1303823321}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 43594893312771332, guid: cfc266131ba1e0946818c8cf72cb33ee, type: 3}
       propertyPath: startActive
       value: 0
@@ -39182,6 +39194,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cb9aa70a22847b5925ee5f067c10a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1303823321 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3482036030872247450, guid: b0ab592ca3e4ab342b3ea021ce56a55f, type: 3}
+  m_PrefabInstance: {fileID: 1303823317}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1303823325 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9113696433874244854, guid: b0ab592ca3e4ab342b3ea021ce56a55f, type: 3}
+  m_PrefabInstance: {fileID: 1303823317}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1305140615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41149,6 +41171,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6300931836217310691, guid: 7234ef2eac965584194698b7108cc8db, type: 3}
+      propertyPath: progressBarObj
+      value: 
+      objectReference: {fileID: 1672015815}
+    - target: {fileID: 6300931836217310691, guid: 7234ef2eac965584194698b7108cc8db, type: 3}
+      propertyPath: actionCountText
+      value: 
+      objectReference: {fileID: 1672015818}
     - target: {fileID: 6482935685189192060, guid: 7234ef2eac965584194698b7108cc8db, type: 3}
       propertyPath: m_Name
       value: Scenario0
@@ -61252,7 +61282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1348892357632814112, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2242300016549856744, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_IsActive
@@ -61277,6 +61307,22 @@ PrefabInstance:
     - target: {fileID: 5337550508208751490, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 175.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5711429712727320752, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804900612437664263, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1303823325}
+    - target: {fileID: 7804900612437664263, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804900612437664263, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_VertexColorAlwaysGammaSpace
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8309252025088880201, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: Scenario1
@@ -61316,11 +61362,11 @@ PrefabInstance:
       objectReference: {fileID: 1983224282}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_AnchorMax.x
@@ -61340,11 +61386,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1101
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 581
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_LocalPosition.x
@@ -61364,15 +61422,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8849940724773838333, guid: c8bdf9a2fec0e86499a3ab0e0bc39250, type: 3}
       propertyPath: m_AnchoredPosition.x

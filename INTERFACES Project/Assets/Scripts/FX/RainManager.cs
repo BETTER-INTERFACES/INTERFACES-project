@@ -113,6 +113,10 @@ public class RainManager : MonoBehaviour
     private float smoothedYaw;
     private bool yawInitialized;
 
+    public RainManager()
+    {
+    }
+
     /// <summary>Vrai si la pluie est demandee (meme pendant le fondu de sortie, c'est la cible).</summary>
     public bool IsActive => isActive;
 
@@ -165,8 +169,8 @@ public class RainManager : MonoBehaviour
         currentIntensity = Mathf.MoveTowards(currentIntensity, target, step);
         ApplyIntensity(currentIntensity);
 
-        if (!isActive && currentIntensity <= 0f && rainRoot != null)
-            rainRoot.SetActive(false);
+        //if (!isActive && currentIntensity <= 0f && rainRoot != null)
+          //  rainRoot.SetActive(false);
     }
 
     private void LateUpdate()

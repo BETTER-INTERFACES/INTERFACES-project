@@ -35,6 +35,10 @@ public class SimulationManagerInteraction : SimulationManager
     private List<string> tagsToIgnore = new List<string> { "building" };
     private bool rainManagerWarned = false;
 
+    
+    
+    private GAMARainMessage RainMessage = null;
+
     // --- INTERACTIONS XR ---
 
     protected override void HoverEnterInteraction(HoverEnterEventArgs ev)
@@ -87,8 +91,16 @@ public class SimulationManagerInteraction : SimulationManager
 
     protected override void ManageOtherMessages(string content)
     {
-        message = GAMAMessage2.CreateFromJSON(content);
-        OnGAMAMessageReceived?.Invoke(message);
+        if (content.Contains("intensity"))
+        {
+         RainMessage = GAMARainMessage.CreateFromJSON(content);
+        } else
+        {
+              message = GAMAMessage2.CreateFromJSON(content);
+             OnGAMAMessageReceived?.Invoke(message);
+        }
+                
+      
     }
 
     protected override void OtherUpdate()
@@ -99,6 +111,11 @@ public class SimulationManagerInteraction : SimulationManager
             ApplyRain(rainIntentisty);
         }
 
+        if (RainMessage != null)
+        {
+            ApplyRain((float) RainMessage.intensity);
+            RainMessage = null;
+        }
         if (message == null) return;
 
         // Gestion du timer UI
@@ -221,9 +238,26 @@ public class SimulationManagerInteraction : SimulationManager
                 return;
             }
         }
-
+    
         intensity01 = Mathf.Clamp01(intensity01);
         rainManager.SetRainActive(intensity01 > 0f);
         if (intensity01 > 0f) rainManager.SetIntensity(intensity01);
     }
+}
+
+
+
+[System.Serializable]
+public class GAMARainMessage
+{
+
+   
+    public double intensity;
+    //public string season;
+
+    public static GAMARainMessage CreateFromJSON(string jsonString)
+    {
+        return JsonUtility.FromJson<GAMARainMessage>(jsonString);
+    }
+
 }

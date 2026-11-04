@@ -39,9 +39,9 @@ species unity_linker parent: abstract_unity_linker {
 		unity_properties << up_default;
 
 		/* Water flow */
-		unity_aspect rain_aspect <- prefab_aspect("Prefabs/RainMaker/Prefab/RainPrefab",1.0,0.0,1.0,0.0,precision);
+		/*unity_aspect rain_aspect <- prefab_aspect("Prefabs/RainMaker/Prefab/RainPrefab",1.0,0.0,1.0,0.0,precision);
 		up_rain <- geometry_properties("rain","rain",rain_aspect,#no_interaction,false);
-		unity_properties << up_rain;
+		unity_properties << up_rain;*/
 		
 		
 		/* NBSS components */
@@ -100,25 +100,27 @@ species unity_linker parent: abstract_unity_linker {
 	
 	// Send species attributes to Unity as they're updated
 	reflex send_agents when: not empty(unity_player) {
-		list<float> rain_intensity <- rain collect float(each.runoff.my_flow);
+		list<float> rain_intensity <- rain collect int(each.runoff.my_flow);
 		list<string> rain_seasons <- rain collect current_season;
 		list<int> fqt_fm <- filter_media collect (each.function_attributes["my_fqt"]);
 		list<float> fm_sediments <- filter_media collect (each.partpoll_acc);
 		list<float> water_level_pond <- ponding_area collect (each.water_level);
 		list<float> health <- nbss_area collect (each.health);
-		
 		map<string,list<unknown>> atts_fm <-  [
 			"fqt_fm":: fqt_fm,
 			"sediments_fm":: fm_sediments
 		]; 
-		map<string,list<unknown>> atts_rain <- [
-			"rain_intensity":: rain_intensity,
-			"rain_seasons":: rain_seasons
+		map<string,unknown> atts_rain <- [
+			"intensity":: first(rain_intensity)//,
+			//"season":: first(rain_seasons)
 		];
+		
+		do send_message players: unity_player as list mes: atts_rain;
+		
 		map<string,list<unknown>> atts_ponding_area <- ["water_level":: water_level_pond];
 		map<string,list<unknown>> atts_nbss_area <- ["health":: health];
 		
-		//do add_geometries_to_send(rain,up_rain,atts_rain);
+	//	do add_geometries_to_send(rain,up_rain,atts_rain);
 		do add_geometries_to_send(ponding_area, up_ponding_area, atts_ponding_area);
 		do add_geometries_to_send(filter_media, up_filter_media, atts_fm);
 		do add_geometries_to_send(nbss_area, up_nbss_area, atts_nbss_area);
