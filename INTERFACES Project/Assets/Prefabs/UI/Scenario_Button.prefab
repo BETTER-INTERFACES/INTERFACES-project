@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.9
+  m_PixelsPerUnitMultiplier: 1.85
 --- !u!114 &579038430135787634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,8 +228,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Scenario Prefab
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d32b28e255245c345856fe5f4a9352b7, type: 2}
-  m_sharedMaterial: {fileID: 4013287806063516343, guid: d32b28e255245c345856fe5f4a9352b7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a3a395b91e19c6458c74cbe359bf6f4, type: 2}
+  m_sharedMaterial: {fileID: -2185771406600416577, guid: 8a3a395b91e19c6458c74cbe359bf6f4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

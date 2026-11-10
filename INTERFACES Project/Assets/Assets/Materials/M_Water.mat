@@ -49,9 +49,9 @@ Material:
     - _Tiling: 4
     - _XRMotionVectorsPass: 1
     m_Colors:
-    - _Base_Color: {r: 0.4336143, g: 0.5283019, b: 0.3513706, a: 1}
-    - _Base_Color_02: {r: 0.4263324, g: 0.5660378, b: 0.24296905, a: 1}
-    - _Shore_Color: {r: 0.66727877, g: 0.754717, b: 0.5161979, a: 1}
+    - _Base_Color: {r: 0.38627034, g: 0.4056604, b: 0.36930403, a: 1}
+    - _Base_Color_02: {r: 0.43147027, g: 0.4528302, b: 0.40370238, a: 1}
+    - _Shore_Color: {r: 0.5165215, g: 0.5377358, b: 0.47939655, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1954672462520976150
