@@ -88,6 +88,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 126
       objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 86da71e25b8f89c4bae4cb4ea91cef33, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 86da71e25b8f89c4bae4cb4ea91cef33, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6149447101272886099, guid: 86da71e25b8f89c4bae4cb4ea91cef33, type: 3}
       propertyPath: m_ReceiveGI
       value: 2
