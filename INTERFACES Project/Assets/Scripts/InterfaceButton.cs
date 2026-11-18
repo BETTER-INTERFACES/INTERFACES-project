@@ -1,94 +1,89 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public class InterfaceButton : MonoBehaviour
 {
-    public GameObject menuPanel;
-    public GameObject DisplayCanvas;
-    public GameObject commandsPanel;
-    public ProgressBar progressBar;
+    // UI du mode actif (simulateur ou casque)
+    private UIRig ui => UIRig.Active;
 
     void Start()
     {
-        if (menuPanel != null)
+        if (ui != null && ui.menuPanel != null)
         {
-            DisplayCanvas.SetActive(false);
-            menuPanel.SetActive(true);
-            commandsPanel.SetActive(false);
+            SetActive(ui.displayCanvas, false);
+            SetActive(ui.menuPanel, true);
+            SetActive(ui.commandsPanel, false);
         }
     }
+
     public void LaunchSc1()
     {
-        menuPanel.SetActive(false);
+        SetActive(ui.menuPanel, false);
 
-        Debug.Log("Le scénario 1 commence !");
+        Debug.Log("Le scÃ©nario 1 commence !");
 
-        string mes = "scenario1";
-        Dictionary<string, string> args = new Dictionary<string, string> {
-                    {"id",ConnectionManager.Instance.GetConnectionId() },
-                    {"mes",  mes }};
-        ConnectionManager.Instance.SendExecutableAsk("receive_message", args);
+        SendScenarioMessage("scenario1");
 
-        DisplayCanvas.SetActive(true);
-        
+        SetActive(ui.displayCanvas, true);
     }
 
     public void LaunchSc2()
     {
-        menuPanel.SetActive(false);
+        SetActive(ui.menuPanel, false);
 
-        Debug.Log("Le scénario 2 commence !");
+        Debug.Log("Le scÃ©nario 2 commence !");
 
-        string mes = "scenario2";
-        Dictionary<string, string> args = new Dictionary<string, string> {
-                 {"id",ConnectionManager.Instance.GetConnectionId() },
-                 {"mes",  mes }};
-        ConnectionManager.Instance.SendExecutableAsk("receive_message", args);
+        SendScenarioMessage("scenario2");
 
-        DisplayCanvas.SetActive(true);
+        SetActive(ui.displayCanvas, true);
     }
 
     public void LaunchSc0()
     {
-        menuPanel.SetActive(false);
-        Debug.Log("Le scénario 0 commence");
-        string mes = "scenario0";
-        Dictionary<string, string> args = new Dictionary<string, string> {
-                 {"id",ConnectionManager.Instance.GetConnectionId() },
-                 {"mes",  mes }};
-        ConnectionManager.Instance.SendExecutableAsk("receive_message", args);
+        SetActive(ui.menuPanel, false);
 
-        DisplayCanvas.SetActive(true);
+        Debug.Log("Le scÃ©nario 0 commence");
+
+        SendScenarioMessage("scenario0");
+
+        SetActive(ui.displayCanvas, true);
     }
 
     public void SkipPhase()
     {
         Debug.Log("Skip to next phase");
 
-        SimulationManager.Instance.SendMessageToGama(progressBar.BarValue.ToString());
+        SimulationManager.Instance.SendMessageToGama(ui.progressBar.BarValue.ToString());
 
-        string mes = "skip";
-        Dictionary<string, string> args = new Dictionary<string, string> {
-                {"id",ConnectionManager.Instance.GetConnectionId() },
-                {"mes",  mes }};
-        ConnectionManager.Instance.SendExecutableAsk("receive_message", args);
+        SendScenarioMessage("skip");
     }
 
     public void SeeCommands()
     {
         Debug.Log("Commands menu");
 
-        menuPanel.SetActive(false);
-        commandsPanel.SetActive(true);
+        SetActive(ui.menuPanel, false);
+        SetActive(ui.commandsPanel, true);
     }
 
     public void OK()
     {
         Debug.Log("OK");
 
-        menuPanel.SetActive(true);
-        commandsPanel.SetActive(false);
+        SetActive(ui.menuPanel, true);
+        SetActive(ui.commandsPanel, false);
+    }
 
+    private void SendScenarioMessage(string mes)
+    {
+        Dictionary<string, string> args = new Dictionary<string, string> {
+            {"id", ConnectionManager.Instance.GetConnectionId() },
+            {"mes", mes }};
+        ConnectionManager.Instance.SendExecutableAsk("receive_message", args);
+    }
+
+    private static void SetActive(GameObject go, bool active)
+    {
+        if (go != null) go.SetActive(active);
     }
 }

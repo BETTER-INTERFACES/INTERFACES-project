@@ -19,11 +19,11 @@ public class MenuRadialManager : MonoBehaviour
     public GameObject SC2_Buttons;
     public GameObject conteneurArrosage;
 
-    [Header("Matériaux")]
+    [Header("MatÃ©riaux")]
     [SerializeField] private Material burntGrassMat;
     [SerializeField] private Material healthyGrassMat;
 
-    [Header("Paramètres des barrières")]
+    [Header("ParamÃ¨tres des barriÃ¨res")]
     public GameObject prefabSprout;
     public GameObject prefabMetalFence;
     public float decalageVersRoute = 2.5f;
@@ -34,18 +34,43 @@ public class MenuRadialManager : MonoBehaviour
     public GameObject prefabSign;
     public GameObject prefabTree;
 
-    // Cette variable va mémoriser l'ID du filter_media sur lequel on a cliqué
+    // Cette variable va mÃ©moriser l'ID du filter_media sur lequel on a cliquÃ©
     private string idObjetActuel = "";
     private float weight_score = 0.0f;
-    // Mémorise l'heure exacte (en secondes) de la dernière mise à jour du score
+    // MÃ©morise l'heure exacte (en secondes) de la derniÃ¨re mise Ã  jour du score
     private float tempsDernierScore = 0f;
 
     [SerializeField] private ProgressBar progressBarObj;
+
+    // AJOUT : objet deplace pour positionner le menu radial (UIRig.radialMenuRoot, sinon ce GameObject)
+    private GameObject menuObject;
+    private bool radialMenuIsScreenSpace;
+    private GameObject MenuObject => menuObject != null ? menuObject : gameObject;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        ApplyRig(); // AJOUT
+    }
+
+    // AJOUT : copie les references de la variante d'UI active (simulateur ou casque)
+    private void ApplyRig()
+    {
+        UIRig rig = UIRig.Active;
+        if (rig == null) return;
+
+        actionCountText = rig.actionCountText;
+        conteneurFilterMedia = rig.conteneurFilterMedia;
+        conteneurNBSSArea = rig.conteneurNBSSArea;
+        SC1_Buttons = rig.SC1_Buttons;
+        SC2_Buttons = rig.SC2_Buttons;
+        conteneurArrosage = rig.conteneurArrosage;
+        progressBarObj = rig.progressBar;
+
+        menuObject = rig.radialMenuRoot;
+        radialMenuIsScreenSpace = rig.radialMenuIsScreenSpace;
     }
 
     void Start()
@@ -67,11 +92,11 @@ public class MenuRadialManager : MonoBehaviour
         {
             if (Time.time - tempsDernierScore < 0.01f)
             {
-                Debug.LogWarning("Doublon de score bloqué");
-                return; // On arrête la lecture ici pour ce message précis
+                Debug.LogWarning("Doublon de score bloquÃ©");
+                return; // On arrÃªte la lecture ici pour ce message prÃ©cis
             }
 
-            // On met à jour l'heure du dernier score pour le prochain coup
+            // On met Ã  jour l'heure du dernier score pour le prochain coup
             tempsDernierScore = Time.time;
 
             Debug.Log("add to the score : " + mes.add_to_score);
@@ -105,7 +130,7 @@ public class MenuRadialManager : MonoBehaviour
             else 
             {
                 conteneurNBSSArea.SetActive(true);
-                PlacerMenuProcheDuJoueur(this.gameObject, positionCible, new Vector3(0, 0.2f, 0)); 
+                PlacerMenuProcheDuJoueur(MenuObject, positionCible, new Vector3(0, 0.2f, 0)); 
             }
         }
         //Open menu when selecting filter_media gameobject
@@ -113,7 +138,7 @@ public class MenuRadialManager : MonoBehaviour
         {
             //transform.position = positionCible.position; //+ new Vector3(0, 3f, 0);
             conteneurFilterMedia.SetActive(true);
-            PlacerMenuProcheDuJoueur(this.gameObject, positionCible, new Vector3(0, 0f, 0));
+            PlacerMenuProcheDuJoueur(MenuObject, positionCible, new Vector3(0, 0f, 0));
             if (SimulationManagerInteraction.scenario == 1)
             {
                 SC1_Buttons.SetActive(true);
@@ -134,7 +159,7 @@ public class MenuRadialManager : MonoBehaviour
         conteneurArrosage.SetActive(false);
         SC1_Buttons.SetActive(false);
         SC2_Buttons.SetActive(false);
-        idObjetActuel = ""; // On nettoie l'ID par sécurité
+        idObjetActuel = ""; // On nettoie l'ID par sÃ©curitÃ©
 
         
     }
@@ -146,7 +171,7 @@ public class MenuRadialManager : MonoBehaviour
         GameObject[] toutesLesRoutes = GameObject.FindGameObjectsWithTag("road");
         if (toutesLesRoutes.Length == 0)
         {
-            Debug.LogError("ERREUR : Aucun GameObject avec le tag 'road' trouvé !");
+            Debug.LogError("ERREUR : Aucun GameObject avec le tag 'road' trouvÃ© !");
             return;
         }
 
@@ -192,13 +217,13 @@ public class MenuRadialManager : MonoBehaviour
                 longueurNoue = sizeZ;
                 directionLigne = Vector3.forward; // La ligne de buissons va suivre l'axe Z
 
-                // La route est donc soit à l'Est (+X) soit à l'Ouest (-X)
+                // La route est donc soit Ã  l'Est (+X) soit Ã  l'Ouest (-X)
                 float signeX = Mathf.Sign(routePlusProche.transform.position.x - noueCliquee.transform.position.x);
                 directionDecalage = new Vector3(signeX, 0, 0);
             }
         }
 
-        // Le point central de la barrière
+        // Le point central de la barriÃ¨re
         Vector3 centreBarriere = noueCliquee.transform.position + (directionDecalage * decalageVersRoute);
 
         //Spawning the fence
@@ -291,13 +316,13 @@ public class MenuRadialManager : MonoBehaviour
             {
                 // L'objet est plus large que long (Horizontal)
                 loc = new Vector3(-1f, 0f, -3f);
-                Debug.Log("Objet détecté comme Horizontal");
+                Debug.Log("Objet dÃ©tectÃ© comme Horizontal");
             }
             else
             {
                 // L'objet est plus long que large (Vertical)
                 loc = new Vector3(3f, 0f, 4f);
-                Debug.Log("Objet détecté comme Vertical");
+                Debug.Log("Objet dÃ©tectÃ© comme Vertical");
             }
         }
         ObjectSpawner(obj, loc, prefabSign);
@@ -305,7 +330,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue + 5f; //Updating progress bar
-        SendingMessages.Show("La sensibilisation est la première ligne de défense de la noue.", 7f, Color.green);
+        SendingMessages.Show("La sensibilisation est la premiÃ¨re ligne de dÃ©fense de la noue.", 7f, Color.green);
         SimulationManager.Instance.SendMessageToGama(obj.name + ":" + "0"); //Updating swale health
     }
 
@@ -320,13 +345,13 @@ public class MenuRadialManager : MonoBehaviour
             {
                 // L'objet est plus large que long (Horizontal)
                 loc = new Vector3(2f, 0f, 3f);
-                Debug.Log("Objet détecté comme Horizontal");
+                Debug.Log("Objet dÃ©tectÃ© comme Horizontal");
             }
             else
             {
                 // L'objet est plus long que large (Vertical)
                 loc = new Vector3(-0.5f, 0f, col.bounds.size.z/2 -0.5f);
-                Debug.Log("Objet détecté comme Vertical");
+                Debug.Log("Objet dÃ©tectÃ© comme Vertical");
             }
         }
         ObjectSpawner(obj, loc, prefabTree);
@@ -334,7 +359,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue + 15f;
-        SendingMessages.Show("Planter des arbres permet de diversifier les strates de cet espace, et apporter un peu d'ombre et de fraîcheur à la noue.", 7f, Color.green);
+        SendingMessages.Show("Planter des arbres permet de diversifier les strates de cet espace, et apporter un peu d'ombre et de fraÃ®cheur Ã  la noue.", 7f, Color.green);
         SimulationManager.Instance.SendMessageToGama(obj.name + ":" + "3");
     }
 
@@ -370,7 +395,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue - 15f;
-        SendingMessages.Show("Tondre à ras détruit l'ombre naturelle du sol ! L'humidité s'évapore et la biodiversité fuit.", 7f, Color.red);
+        SendingMessages.Show("Tondre Ã  ras dÃ©truit l'ombre naturelle du sol ! L'humiditÃ© s'Ã©vapore et la biodiversitÃ© fuit.", 7f, Color.red);
         SimulationManager.Instance.SendMessageToGama(swale.name + ":" + "-15");
     }
 
@@ -389,7 +414,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue + 15f;
-        SendingMessages.Show("Le paillage protège le sol de la chaleur et garde l’humidité.", 7f, new Color(119f / 255f, 178f / 255f, 107f / 255f));
+        SendingMessages.Show("Le paillage protÃ¨ge le sol de la chaleur et garde lâ€™humiditÃ©.", 7f, new Color(119f / 255f, 178f / 255f, 107f / 255f));
         SimulationManager.Instance.SendMessageToGama(zoneAPailler.name + ":" + "5");
     }
 
@@ -400,7 +425,7 @@ public class MenuRadialManager : MonoBehaviour
         if (zoneAAmemenager != null)
         {
             CreerBarriere(zoneAAmemenager, prefabSprout);
-            Debug.Log("barrière créée");
+            Debug.Log("barriÃ¨re crÃ©Ã©e");
         }
         else
         {
@@ -410,7 +435,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue + 20f;
-        SendingMessages.Show("Les plantes locales protègent la noue du piétinement naturellement, et ralentissent le tassement de la terre.", 7f, new Color(119f / 255f, 178f / 255f, 107f / 255f));
+        SendingMessages.Show("Les plantes locales protÃ¨gent la noue du piÃ©tinement naturellement, et ralentissent le tassement de la terre.", 7f, new Color(119f / 255f, 178f / 255f, 107f / 255f));
         SimulationManager.Instance.SendMessageToGama(zoneAAmemenager.name + ":" + "3");
     }
 
@@ -421,7 +446,7 @@ public class MenuRadialManager : MonoBehaviour
         if (zoneAAmemenager != null)
         {
             CreerBarriere(zoneAAmemenager, prefabMetalFence);
-            Debug.Log("barrière créée");
+            Debug.Log("barriÃ¨re crÃ©Ã©e");
         }
         else
         {
@@ -431,7 +456,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue - 5f;
-        SendingMessages.Show("Le grillage bloque les piétons, mais aussi la faune locale ! Privilégiez une barrière végétale (haie).", 7f, Color.yellow);
+        SendingMessages.Show("Le grillage bloque les piÃ©tons, mais aussi la faune locale ! PrivilÃ©giez une barriÃ¨re vÃ©gÃ©tale (haie).", 7f, Color.yellow);
         SimulationManager.Instance.SendMessageToGama(zoneAAmemenager.name + ":" + "+10");
     }
 
@@ -443,7 +468,7 @@ public class MenuRadialManager : MonoBehaviour
         Material yellowGrassMat = Resources.Load<Material>("Prefabs/FreeVegetation-LowPolyNature/FreeVegetation/Materials/Grass_1");
         foreach (Transform enfant in grass.transform)
         {
-            // Si ce nombre est inférieur à 50%, on éteint l'objet
+            // Si ce nombre est infÃ©rieur Ã  50%, on Ã©teint l'objet
             if (Random.Range(0f, 100f) < 50f)
             {
                 enfant.gameObject.SetActive(false);
@@ -461,7 +486,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
         progressBarObj.BarValue = progressBarObj.BarValue - 20f;
-        SendingMessages.Show("Une pelouse classique demande trop d'eau. Il faut privilégier des plantes locales adaptées à la sécheresse !", 7f, Color.red);
+        SendingMessages.Show("Une pelouse classique demande trop d'eau. Il faut privilÃ©gier des plantes locales adaptÃ©es Ã  la sÃ©cheresse !", 7f, Color.red);
         SimulationManager.Instance.SendMessageToGama("nbss_area" + idx + ":" + "-10");
     }
 
@@ -486,7 +511,7 @@ public class MenuRadialManager : MonoBehaviour
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         conteneurArrosage.SetActive(false);
         progressBarObj.BarValue = progressBarObj.BarValue - 5f;
-        SendingMessages.Show("Arroser en pleine canicule est un gaspillage : 60% de l'eau s'évapore avant de toucher les racines !", 7f, Color.red);
+        SendingMessages.Show("Arroser en pleine canicule est un gaspillage : 60% de l'eau s'Ã©vapore avant de toucher les racines !", 7f, Color.red);
         SimulationManager.Instance.SendMessageToGama(nbss_area.name + ":" + "-10");
     }
 
@@ -523,12 +548,12 @@ public class MenuRadialManager : MonoBehaviour
                 {"id", idObjetActuel }
             };
 
-            // On envoie l'action à GAMA
+            // On envoie l'action Ã  GAMA
             ConnectionManager.Instance.SendExecutableAsk(nomActionGama, args);
-            Debug.Log($"Action '{nomActionGama}' envoyée pour l'objet : {idObjetActuel}");
+            Debug.Log($"Action '{nomActionGama}' envoyÃ©e pour l'objet : {idObjetActuel}");
         }
 
-        // On referme le menu après avoir cliqué
+        // On referme le menu aprÃ¨s avoir cliquÃ©
         SimulationManagerInteraction.actionCount += 1;
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
@@ -537,7 +562,7 @@ public class MenuRadialManager : MonoBehaviour
     //Places the menu at the center of the swale, at a point closest to player
     private void PlacerMenuProcheDuJoueur(GameObject menu, Transform objetCible, Vector3 offset)
     {
-        // On récupère la position du joueur pour savoir d'où il regarde
+        // On rÃ©cupÃ¨re la position du joueur pour savoir d'oÃ¹ il regarde
         Vector3 positionJoueur = Camera.main.transform.position;
         Collider colObjet = objetCible.GetComponentInChildren<Collider>();
 
@@ -552,7 +577,7 @@ public class MenuRadialManager : MonoBehaviour
 
             pointLocal.x = 0;
 
-            // On re-transforme ce point modifié en coordonnées mondiales
+            // On re-transforme ce point modifiÃ© en coordonnÃ©es mondiales
             pointPlusProche = objetCible.TransformPoint(pointLocal);
 
             // Position finale : on ajoute simplement l'offset (la hauteur)
@@ -566,6 +591,19 @@ public class MenuRadialManager : MonoBehaviour
         // Appliquer la position
         Debug.Log(positionFinale);
         Debug.Log(menu.transform.position);
+        // AJOUT : Screen Space Overlay (simulateur), la position est en pixels
+        if (radialMenuIsScreenSpace)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(positionFinale);
+            if (screenPos.z < 0)
+            {
+                // Cible derriere la camera : on centre le menu
+                screenPos = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+            }
+            menu.transform.position = new Vector3(screenPos.x, screenPos.y, 0f);
+            return;
+        }
+
         menu.transform.position = positionFinale;
     }
 }

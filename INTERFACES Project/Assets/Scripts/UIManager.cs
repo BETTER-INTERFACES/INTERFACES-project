@@ -2,10 +2,13 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
+[DefaultExecutionOrder(-50)] // AJOUT : s'execute avant les autres scripts, apres PlatformModeSwitcher
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    // NOTE : ces champs sont remplis automatiquement depuis UIRig au demarrage.
+    // Il n'est plus necessaire de les renseigner dans l'inspecteur.
     [Header("HUD Elements")]
     public TMP_Text timerText;
     public TMP_Text dateTimeText;
@@ -22,7 +25,37 @@ public class UIManager : MonoBehaviour
     public GameObject SC2_Buttons;
     public GameObject conteneurArrosage;
 
-    private void Awake() => Instance = this;
+    private bool radialMenuIsScreenSpace; // AJOUT
+
+    // MODIFIE : appelle ApplyRig en plus d'assigner Instance
+    private void Awake()
+    {
+        Instance = this;
+        ApplyRig();
+    }
+
+    // AJOUT : copie les references de la variante d'UI active (simulateur ou casque)
+    private void ApplyRig()
+    {
+        UIRig rig = UIRig.Active;
+        if (rig == null) return;
+
+        timerText = rig.timerText;
+        dateTimeText = rig.dateTimeText;
+        actionCountText = rig.actionCountText;
+        progressBar = rig.progressBar;
+        displayCanvas = rig.displayCanvas;
+        menuPanel = rig.menuPanel;
+
+        radialMenuRoot = rig.radialMenuRoot;
+        conteneurFilterMedia = rig.conteneurFilterMedia;
+        conteneurNBSSArea = rig.conteneurNBSSArea;
+        SC1_Buttons = rig.SC1_Buttons;
+        SC2_Buttons = rig.SC2_Buttons;
+        conteneurArrosage = rig.conteneurArrosage;
+
+        radialMenuIsScreenSpace = rig.radialMenuIsScreenSpace;
+    }
 
     public void UpdateActionCount(int count, int limit)
     {
@@ -43,7 +76,7 @@ public class UIManager : MonoBehaviour
     {
         FermerMenuRadial();
         // Placement du menu proche du joueur (garder votre méthode PlacerMenuProcheDuJoueur ici)
-        radialMenuRoot.transform.position = cible.position + new Vector3(0, 0.5f, 0);
+        PlacerMenuRadial(cible); // MODIFIE : remplace la ligne radialMenuRoot.transform.position = ...
 
         if (typeObjet == "NBSS_area" && scenario != 1)
         {
@@ -54,6 +87,32 @@ public class UIManager : MonoBehaviour
             conteneurFilterMedia.SetActive(true);
             SC1_Buttons.SetActive(scenario == 1);
             SC2_Buttons.SetActive(scenario == 2);
+        }
+    }
+
+    // AJOUT : placement du menu radial selon le type de Canvas
+    private void PlacerMenuRadial(Transform cible)
+    {
+        Vector3 worldPos = cible.position + new Vector3(0, 0.5f, 0);
+
+        if (radialMenuIsScreenSpace)
+        {
+            // Screen Space Overlay (simulateur) : la position est en pixels
+            Camera cam = Camera.main;
+            if (cam == null) return;
+
+            Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
+            if (screenPos.z < 0)
+            {
+                // Cible derriere la camera : on centre le menu
+                screenPos = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+            }
+            radialMenuRoot.transform.position = new Vector3(screenPos.x, screenPos.y, 0f);
+        }
+        else
+        {
+            // World Space (casque) : comportement d'origine
+            radialMenuRoot.transform.position = worldPos;
         }
     }
 

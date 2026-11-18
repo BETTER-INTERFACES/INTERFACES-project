@@ -69,6 +69,19 @@ public class ProgressBar : MonoBehaviour
     [FormerlySerializedAs("BarAlertColor")]
     [SerializeField] private Color alertColor = Color.red;
 
+    [Header("Clignotement d'alerte")]
+    [Tooltip("Fait clignoter la barre tant que la valeur est sous le seuil.")]
+    [SerializeField] private bool blink = true;
+
+    [Tooltip("Nombre de clignotements par seconde.")]
+    [SerializeField, Min(0.1f)] private float blinkSpeed = 2f;
+
+    [Tooltip("Couleur avec laquelle la barre alterne avec la couleur d'alerte.")]
+    [SerializeField] private Color blinkColor = Color.white;
+
+    [Tooltip("Coché : pulsation douce. Décoché : clignotement net on/off.")]
+    [SerializeField] private bool smoothBlink = true;
+
     // ------------------------------------------------------------------
     // Son d'alerte
     // ------------------------------------------------------------------
@@ -117,6 +130,7 @@ public class ProgressBar : MonoBehaviour
     private float nextPlay;
     private int lastTextKey = int.MinValue;
     private bool inAlert;
+    private float blinkStart; // moment d'entrée en alerte, pour démarrer le clignotement en phase
 
     // ------------------------------------------------------------------
     // API publique
@@ -192,6 +206,19 @@ public class ProgressBar : MonoBehaviour
     {
         if (!Application.isPlaying) return;
 
+        // Clignotement (uniquement pendant l'alerte)
+        if (inAlert && blink && bar != null)
+        {
+            float t = (Time.unscaledTime - blinkStart) * blinkSpeed;
+
+            // k = 1 : couleur d'alerte, k = 0 : couleur de clignotement. Démarre toujours sur l'alerte.
+            float k = smoothBlink
+                ? Mathf.Cos(t * Mathf.PI * 2f) * 0.5f + 0.5f
+                : (Mathf.Repeat(t, 1f) < 0.5f ? 1f : 0f);
+
+            bar.color = Color.Lerp(blinkColor, alertColor, k);
+        }
+
         // Animation fluide (uniquement tant que la barre n'a pas rattrapé la valeur)
         if (smoothSpeed > 0f && !Mathf.Approximately(displayed, current))
         {
@@ -255,6 +282,7 @@ public class ProgressBar : MonoBehaviour
         if (now == inAlert) return;
 
         inAlert = now;
+        blinkStart = Time.unscaledTime;
         ApplyBarColor();
         Log(now ? "Alerte : ON" : "Alerte : OFF");
 
