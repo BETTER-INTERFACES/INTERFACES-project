@@ -15,7 +15,6 @@ public class MakeTransparent : MonoBehaviour
 
     [Header("Composants")]
     [SerializeField] private Renderer rend;
-    [SerializeField] private Collider col;
     [SerializeField] private XRSimpleInteractable simpleInteractable;
     [SerializeField] private Behaviour xrTintScript;
 
@@ -28,7 +27,6 @@ public class MakeTransparent : MonoBehaviour
     private void Awake()
     {
         if (rend == null) rend = GetComponent<Renderer>();
-        if (col == null) col = GetComponent<Collider>();
         if (simpleInteractable == null) simpleInteractable = GetComponent<XRSimpleInteractable>();
         if (xrTintScript == null) xrTintScript = GetComponent("XRTintInteractableVisual") as Behaviour;
 
@@ -46,13 +44,19 @@ public class MakeTransparent : MonoBehaviour
     private void OnEnable()
     {
         if (simpleInteractable != null)
+        {
             simpleInteractable.selectEntered.AddListener(OnSelect);
+            simpleInteractable.activated.AddListener(OnActivate);
+        }
     }
 
     private void OnDisable()
     {
         if (simpleInteractable != null)
+        {
             simpleInteractable.selectEntered.RemoveListener(OnSelect);
+            simpleInteractable.activated.RemoveListener(OnActivate);
+        }
 
         if (activeRoutine != null)
         {
@@ -69,7 +73,18 @@ public class MakeTransparent : MonoBehaviour
 
     private void OnSelect(SelectEnterEventArgs args)
     {
-        if (!isTransparent && isActiveAndEnabled)
+        TriggerTransparency();
+    }
+
+    private void OnActivate(ActivateEventArgs args)
+    {
+        TriggerTransparency();
+    }
+
+    private void TriggerTransparency()
+    {
+        Debug.Log("CLIC DÉTECTÉ SUR : " + gameObject.name);
+                   if (!isTransparent && isActiveAndEnabled)
         {
             activeRoutine = StartCoroutine(HandleTransparencyRoutine());
         }
@@ -80,7 +95,8 @@ public class MakeTransparent : MonoBehaviour
         isTransparent = true;
 
         if (xrTintScript != null) xrTintScript.enabled = false;
-        if (col != null) col.enabled = false;
+        // On désactive uniquement l'interactable pour garder le Collider actif pour la téléportation
+        if (simpleInteractable != null) simpleInteractable.enabled = false;
 
         SetTransparencyState(true);
 
@@ -94,7 +110,7 @@ public class MakeTransparent : MonoBehaviour
     {
         SetTransparencyState(false);
 
-        if (col != null) col.enabled = true;
+        if (simpleInteractable != null) simpleInteractable.enabled = true;
         if (xrTintScript != null) xrTintScript.enabled = true;
 
         isTransparent = false;
@@ -122,7 +138,6 @@ public class MakeTransparent : MonoBehaviour
     {
         if (disableDuration < 0f) disableDuration = 0f;
         if (rend == null) rend = GetComponent<Renderer>();
-        if (col == null) col = GetComponent<Collider>();
         if (simpleInteractable == null) simpleInteractable = GetComponent<XRSimpleInteractable>();
     }
 #endif
