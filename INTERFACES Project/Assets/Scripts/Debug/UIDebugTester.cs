@@ -146,17 +146,11 @@ public class UIDebugTester : MonoBehaviour
             if (radialCanvas != null)
             {
                 sb.AppendLine($"Canvas du menu radial : {radialCanvas.name} ({radialCanvas.renderMode})");
-                bool radialScreen = radialCanvas.renderMode != RenderMode.WorldSpace;
-                if (radialScreen != rig.radialMenuIsScreenSpace)
+                if (radialCanvas.renderMode != RenderMode.WorldSpace)
                 {
-                    sb.AppendLine("ATTENTION : radialMenuIsScreenSpace ne correspond pas au Canvas du menu radial");
+                    sb.AppendLine("ATTENTION : le Canvas du menu radial doit etre en World Space");
                 }
             }
-        }
-
-        if (rig.radialMenuIsScreenSpace != PlatformModeSwitcher.IsSimulatorMode)
-        {
-            sb.AppendLine("A verifier : radialMenuIsScreenSpace ne correspond pas au mode");
         }
 
         // EventSystem

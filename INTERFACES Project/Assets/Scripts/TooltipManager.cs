@@ -54,6 +54,24 @@ public class TooltipManager : MonoBehaviour
     [Tooltip("Lissage du déplacement en secondes. 0 = suit instantanément.")]
     [SerializeField, Min(0f)] private float followSmoothTime = 0.05f;
 
+    // AJOUT : recul quand le joueur s'approche
+    [Tooltip("Distance horizontale minimale entre la caméra et le tooltip. Il recule quand le joueur s'approche. 0 = désactivé.")]
+    [SerializeField, Min(0f)] private float minDistanceFromCamera = 1f;
+
+    [Tooltip("Angle maximal (degrés) au dessus du regard. Si le tooltip est plus haut, il recule au lieu de monter dans le champ de vision. 0 = désactivé.")]
+    [SerializeField, Range(0f, 80f)] private float maxElevationAngle = 30f;
+
+    [Tooltip("Distance maximale du recul par rapport à la caméra. 0 = illimité.")]
+    [SerializeField, Min(0f)] private float maxDistanceFromCamera = 4f;
+
+    // AJOUT : évite la superposition avec le menu radial
+    [Header("Menu radial")]
+    [Tooltip("Masque le tooltip (avec fondu) quand il se trouverait sur le menu radial ouvert. Il réapparaît à la fermeture du menu.")]
+    [SerializeField] private bool hideWhenOverlappingRadialMenu = true;
+
+    [Tooltip("Distance (en mètres) sous laquelle le tooltip et le menu radial sont considérés comme superposés.")]
+    [SerializeField, Min(0f)] private float radialMenuClearance = 1.2f;
+
     // ------------------------------------------------------------------
     // Taille
     // ------------------------------------------------------------------
@@ -94,6 +112,7 @@ public class TooltipManager : MonoBehaviour
     private Vector3 lastAnchor;
     private string lastMessage;
     private bool visible;
+    private bool hiddenByRadialMenu; // AJOUT
     private Camera cachedMain;
 
     // ------------------------------------------------------------------
@@ -229,17 +248,14 @@ public class TooltipManager : MonoBehaviour
         Vector3 anchor = ComputeAnchor(camPos);
         lastAnchor = anchor;
 
-        // Direction horizontale caméra vers ancre (repli : direction du regard)
-        Vector3 dir = anchor - camPos;
-        dir.y = 0f;
-        if (dir.sqrMagnitude < 0.0001f)
-        {
-            dir = cam.transform.forward;
-            dir.y = 0f;
-        }
-        dir.Normalize();
+        // MODIFIE : décalage et poussée via WorldPanelPlacement (logique partagée avec le menu radial)
+        Vector3 wanted = WorldPanelPlacement.OffsetFromAnchor(
+            anchor, activeOffset, activePush, camPos, cam.transform.forward);
 
-        Vector3 wanted = anchor + activeOffset + dir * activePush;
+        // AJOUT : le tooltip recule (sans monter) si le joueur est trop près ou si le tooltip est trop haut
+        wanted = WorldPanelPlacement.KeepComfortable(
+            wanted, camPos, cam.transform.forward,
+            minDistanceFromCamera, maxElevationAngle, maxDistanceFromCamera);
 
         if (snap || followSmoothTime <= 0f)
         {
@@ -257,6 +273,10 @@ public class TooltipManager : MonoBehaviour
         look.y = 0f;
         if (look.sqrMagnitude > 0.0001f) transform.rotation = Quaternion.LookRotation(look);
 
+        // AJOUT : masqué tant qu'il est superposé au menu radial ouvert
+        hiddenByRadialMenu = hideWhenOverlappingRadialMenu
+            && RadialMenuAnchor.OverlapsOpenMenu(transform.position, radialMenuClearance);
+
         if (scaleWithDistance)
         {
             float dist = Vector3.Distance(camPos, transform.position);
@@ -265,44 +285,11 @@ public class TooltipManager : MonoBehaviour
         }
     }
 
+    // MODIFIE : le calcul est maintenant dans WorldPanelPlacement (partagé avec le menu radial)
     private Vector3 ComputeAnchor(Vector3 camPos)
     {
-        switch (anchorMode)
-        {
-            case AnchorMode.TopOfBounds:
-                if (TryGetBounds(out Bounds b))
-                    return new Vector3(b.center.x, b.max.y, b.center.z);
-                break;
-
-            default: // ClosestPointToCamera
-                if (targetCollider != null)
-                {
-                    // ClosestPoint ne supporte que certains colliders, sinon Unity renvoie une erreur
-                    return SupportsClosestPoint(targetCollider)
-                        ? targetCollider.ClosestPoint(camPos)
-                        : targetCollider.bounds.ClosestPoint(camPos);
-                }
-                if (targetRenderer != null) return targetRenderer.bounds.ClosestPoint(camPos);
-                break;
-        }
-
-        return target.position;
-    }
-
-    private bool TryGetBounds(out Bounds bounds)
-    {
-        if (targetCollider != null) { bounds = targetCollider.bounds; return true; }
-        if (targetRenderer != null) { bounds = targetRenderer.bounds; return true; }
-        bounds = default;
-        return false;
-    }
-
-    private static bool SupportsClosestPoint(Collider c)
-    {
-        return c is BoxCollider
-            || c is SphereCollider
-            || c is CapsuleCollider
-            || (c is MeshCollider mc && mc.convex);
+        return WorldPanelPlacement.ComputeAnchor(
+            target, targetCollider, targetRenderer, camPos, anchorMode == AnchorMode.TopOfBounds);
     }
 
     private void SetTarget(Transform newTarget)
@@ -318,7 +305,8 @@ public class TooltipManager : MonoBehaviour
     // ------------------------------------------------------------------
     private void SetupFade()
     {
-        if (canvas == null || canvasGroup != null || fadeDuration <= 0f) return;
+        // MODIFIE : le CanvasGroup est toujours créé, il sert aussi à masquer le tooltip sans désactiver le canvas
+        if (canvas == null || canvasGroup != null) return;
 
         canvasGroup = canvas.AddComponent<CanvasGroup>();
         canvasGroup.interactable = false;
@@ -327,9 +315,10 @@ public class TooltipManager : MonoBehaviour
 
     private void UpdateFade()
     {
-        if (canvasGroup == null || fadeDuration <= 0f) return;
+        if (canvasGroup == null) return;
 
-        float targetAlpha = visible ? 1f : 0f;
+        // MODIFIE : invisible aussi quand il est superposé au menu radial
+        float targetAlpha = (visible && !hiddenByRadialMenu) ? 1f : 0f;
 
         if (Mathf.Approximately(canvasGroup.alpha, targetAlpha))
         {
@@ -337,7 +326,9 @@ public class TooltipManager : MonoBehaviour
             return;
         }
 
-        canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, Time.unscaledDeltaTime / fadeDuration);
+        canvasGroup.alpha = fadeDuration > 0f
+            ? Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, Time.unscaledDeltaTime / fadeDuration)
+            : targetAlpha;
     }
 
     private void HideImmediate()

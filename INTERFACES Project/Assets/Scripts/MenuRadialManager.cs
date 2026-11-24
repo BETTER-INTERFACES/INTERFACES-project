@@ -42,10 +42,24 @@ public class MenuRadialManager : MonoBehaviour
 
     [SerializeField] private ProgressBar progressBarObj;
 
-    // AJOUT : objet deplace pour positionner le menu radial (UIRig.radialMenuRoot, sinon ce GameObject)
+    // AJOUT : racine du menu radial (UIRig.radialMenuRoot, sinon ce GameObject)
     private GameObject menuObject;
-    private bool radialMenuIsScreenSpace;
     private GameObject MenuObject => menuObject != null ? menuObject : gameObject;
+
+    // AJOUT : place le menu pres de l'objet comme le TooltipManager (cree automatiquement)
+    private RadialMenuAnchor anchor;
+    private RadialMenuAnchor Anchor
+    {
+        get
+        {
+            if (anchor == null)
+            {
+                anchor = MenuObject.GetComponent<RadialMenuAnchor>();
+                if (anchor == null) anchor = MenuObject.AddComponent<RadialMenuAnchor>();
+            }
+            return anchor;
+        }
+    }
 
     private void Awake()
     {
@@ -70,7 +84,6 @@ public class MenuRadialManager : MonoBehaviour
         progressBarObj = rig.progressBar;
 
         menuObject = rig.radialMenuRoot;
-        radialMenuIsScreenSpace = rig.radialMenuIsScreenSpace;
     }
 
     void Start()
@@ -123,6 +136,9 @@ public class MenuRadialManager : MonoBehaviour
         conteneurFilterMedia.SetActive(false);
         conteneurNBSSArea.SetActive(false);
 
+        // AJOUT : le menu est considere ferme tant qu'un Show ne le rouvre pas
+        if (anchor != null) anchor.Hide();
+
         //Open menu when selecting nbss_area gameobject
         if (typeObjet == "NBSS_area")
         {
@@ -130,7 +146,7 @@ public class MenuRadialManager : MonoBehaviour
             else 
             {
                 conteneurNBSSArea.SetActive(true);
-                PlacerMenuProcheDuJoueur(MenuObject, positionCible, new Vector3(0, 0.2f, 0)); 
+                Anchor.Show(positionCible, new Vector3(0, 0.2f, 0)); 
             }
         }
         //Open menu when selecting filter_media gameobject
@@ -138,7 +154,7 @@ public class MenuRadialManager : MonoBehaviour
         {
             //transform.position = positionCible.position; //+ new Vector3(0, 3f, 0);
             conteneurFilterMedia.SetActive(true);
-            PlacerMenuProcheDuJoueur(MenuObject, positionCible, new Vector3(0, 0f, 0));
+            Anchor.Show(positionCible, new Vector3(0, 0f, 0));
             if (SimulationManagerInteraction.scenario == 1)
             {
                 SC1_Buttons.SetActive(true);
@@ -160,6 +176,8 @@ public class MenuRadialManager : MonoBehaviour
         SC1_Buttons.SetActive(false);
         SC2_Buttons.SetActive(false);
         idObjetActuel = ""; // On nettoie l'ID par sécurité
+
+        if (anchor != null) anchor.Hide(); // AJOUT
 
         
     }
@@ -557,53 +575,5 @@ public class MenuRadialManager : MonoBehaviour
         SimulationManagerInteraction.actionCount += 1;
         actionCountText.text = "Actions restantes : " + SimulationManagerInteraction.actionCount + " / " + SimulationManagerInteraction.actionLimit;
         FermerMenu();
-    }
-
-    //Places the menu at the center of the swale, at a point closest to player
-    private void PlacerMenuProcheDuJoueur(GameObject menu, Transform objetCible, Vector3 offset)
-    {
-        // On récupère la position du joueur pour savoir d'où il regarde
-        Vector3 positionJoueur = Camera.main.transform.position;
-        Collider colObjet = objetCible.GetComponentInChildren<Collider>();
-
-        Vector3 positionFinale = objetCible.position;
-
-        if (colObjet != null)
-        {
-            // 1. Calcul du point du collider le plus proche du joueur sur la longueur
-            Vector3 pointPlusProche = colObjet.ClosestPoint(positionJoueur);
-
-            Vector3 pointLocal = objetCible.InverseTransformPoint(pointPlusProche);
-
-            pointLocal.x = 0;
-
-            // On re-transforme ce point modifié en coordonnées mondiales
-            pointPlusProche = objetCible.TransformPoint(pointLocal);
-
-            // Position finale : on ajoute simplement l'offset (la hauteur)
-            positionFinale = pointPlusProche + offset;
-        }
-        else
-        {
-            positionFinale = objetCible.position + offset;
-        }
-
-        // Appliquer la position
-        Debug.Log(positionFinale);
-        Debug.Log(menu.transform.position);
-        // AJOUT : Screen Space Overlay (simulateur), la position est en pixels
-        if (radialMenuIsScreenSpace)
-        {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(positionFinale);
-            if (screenPos.z < 0)
-            {
-                // Cible derriere la camera : on centre le menu
-                screenPos = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-            }
-            menu.transform.position = new Vector3(screenPos.x, screenPos.y, 0f);
-            return;
-        }
-
-        menu.transform.position = positionFinale;
     }
 }

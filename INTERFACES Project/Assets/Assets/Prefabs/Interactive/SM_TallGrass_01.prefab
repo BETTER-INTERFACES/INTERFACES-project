@@ -70,11 +70,27 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a7621171c3e527f4bba7c5903f1d923a, type: 2}
     - target: {fileID: 919132149155446097, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
       propertyPath: m_Name
-      value: SM_TallGrass_01 (3)
+      value: SM_TallGrass_01
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1062302934668086628, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a7621171c3e527f4bba7c5903f1d923a, type: 2}
+    - target: {fileID: 2833779185939545730, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a7621171c3e527f4bba7c5903f1d923a, type: 2}
+    - target: {fileID: 4742473837712756890, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.5511886
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 8e5b22190c7d0bd428a0cff9c49e0ccc, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.23537862
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
